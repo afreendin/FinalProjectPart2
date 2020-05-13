@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Index</th>
+        <th scope="col">Height_Inches</th>
+        <th scope="col">Weight_Pounds</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for city in cities %}
+    <tr>
+    <!--    <td>{{ city.fldName }}</td>  -->
+        <td><a href="/view/{{city.Index}}">{{ city.Index }}</a></td>
+        <td>{{ city.Height_Inches }}</td>
+        <td>{{ city.Weight_Pounds }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

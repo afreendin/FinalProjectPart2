@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/hw/new" method="POST">
+    <div class="row">
+        <div class="col">
+            <label for="Index">Index</label>
+            <input id="Index" type="text" class="form-control" placeholder="Index" name="Index">
+        </div>
+        <div class="col">
+            <label for="Height_Inches">Height</label>
+            <input id="Height_Inches" t ype="text" class="form-control" placeholder="Height_Inches"
+                   name="Height_Inches">
+        </div>
+        <div class="col">
+            <label for="Weight_Pounds">Weight</label>
+            <input id="Weight_Pounds" type="text" class="form-control" placeholder="Weight_Pounds" name="Weight_Pounds">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Success</button>
+
+</form>
+
+{% endblock %}
