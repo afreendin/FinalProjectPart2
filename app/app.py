@@ -83,6 +83,60 @@ def form_delete_post(Index):
     mysql.get_db().commit()
     return redirect("/", code=302)
 
+# API
+@app.route('/api/v1/hw', methods=['GET'])
+def api_browse() -> str:
+    cursor = mysql.get_db().cursor()
+    cursor.execute('SELECT * FROM hw_100')
+    result = cursor.fetchall()
+    json_result = json.dumps(result);
+    resp = Response(json_result, status=200, mimetype='application/json')
+    return resp
+
+
+@app.route('/api/v1/hw/<int:Index>', methods=['GET'])
+def api_retrieve(Index) -> str:
+    cursor = mysql.get_db().cursor()
+    cursor.execute('SELECT * FROM hw_100 WHERE `Index`= %s', Index)
+    result = cursor.fetchall()
+    json_result = json.dumps(result);
+    resp = Response(json_result, status=200, mimetype='application/json')
+    return resp
+
+
+@app.route('/api/v1/hw/<int:Index>', methods=['PUT'])
+def api_edit(Index) -> str:
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Index'], content['Height_Inches'], content['Weight_Pounds'], Index)
+    sql_update_query = """UPDATE hw_100 t SET t.Index = %s, t.Height_Inches = %s, t.Weight_Pounds = %s WHERE t.Index = %s """
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
+    return resp
+
+@app.route('/api/v1/hw', methods=['POST'])
+def api_add() -> str:
+
+    content = request.json
+
+    cursor = mysql.get_db().cursor()
+    inputData = (content['Index'], content['Height_Inches'], content['Weight_Pounds'])
+    sql_insert_query = """INSERT INTO hw_100 (`Index`,`Height_Inches`,`Weight_Pounds`) VALUES (%s,%s,%s) """
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=201, mimetype='application/json')
+    return resp
+
+@app.route('/api/v1/hw/<int:Index>', methods=['DELETE'])
+def api_delete(Index) -> str:
+    cursor = mysql.get_db().cursor()
+    sql_delete_query = """DELETE FROM hw_100 WHERE `Index` = %s """
+    cursor.execute(sql_delete_query, Index)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
+    return resp
+
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0')
